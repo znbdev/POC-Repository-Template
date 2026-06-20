@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef } from 'react'
 
 interface UploadModalProps {
   open: boolean
@@ -43,7 +43,7 @@ export default function UploadModal({ open, onClose, onSave }: UploadModalProps)
 
   if (!open) return null
 
-  const handleFile = useCallback(async (file: File | undefined) => {
+  const handleFile = async (file: File | undefined) => {
     if (!file) return
     setLoading(true)
     try {
@@ -55,7 +55,7 @@ export default function UploadModal({ open, onClose, onSave }: UploadModalProps)
       reader.readAsDataURL(file)
     }
     setLoading(false)
-  }, [])
+  }
 
   const handleSave = () => {
     if (!preview || !name.trim() || !merchant.trim()) return
