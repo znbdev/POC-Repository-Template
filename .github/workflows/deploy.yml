@@ -1,0 +1,49 @@
+name: Deploy points-card-manager
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'points-card-manager/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: points-card-manager
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: points-card-manager/package-lock.json
+
+      - run: npm ci
+
+      - name: Build
+        run: npm run build
+        env:
+          BASE_URL: /${{ github.event.repository.name }}/
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: points-card-manager/dist
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
