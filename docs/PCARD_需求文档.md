@@ -56,36 +56,52 @@ interface Card {
 
 ## 4. 技术栈
 
-| 层面 | 技术 |
-| --- | --- |
-| 框架 | React 19 + TypeScript |
-| 路由 | React Router v7 |
-| 样式 | Tailwind CSS v4 |
-| 构建 | Vite 6 |
-| 存储 | LocalStorage |
-| 部署 | Vercel / Netlify / GitHub Pages |
+| 层面 | 技术 | 说明 |
+| --- | --- | --- |
+| 框架 | React 19 + TypeScript | 组件化，类型安全 |
+| 路由 | React Router v7 | SPA 路由 |
+| 样式 | Tailwind CSS v4 | 原子化 CSS，移动优先 |
+| 构建 | Vite 6 | 极速 HMR + 打包 |
+| 存储 | LocalStorage | 纯前端本地存储 |
+| CI/CD | GitHub Actions | 推送 main 自动构建部署 |
+| 托管 | GitHub Pages | 免费静态托管 |
 
 ---
 
 ## 5. 目录结构
 
 ```
-src/
-├── components/
-│   ├── CardGrid.tsx       # 卡片网格
-│   ├── CardItem.tsx       # 单张卡片
-│   ├── BarcodeViewer.tsx  # 条形码大图
-│   ├── UploadModal.tsx    # 上传弹窗
-│   └── EmptyState.tsx     # 空态
-├── hooks/
-│   └── useCards.ts        # CRUD + LocalStorage
-├── types/
-│   └── card.ts
-├── pages/
-│   └── HomePage.tsx
-├── App.tsx
-├── main.tsx
-└── index.css
+POC-Repository-Template/
+├── .github/workflows/
+│   └── deploy.yml           # GitHub Actions: 自动构建部署到 Pages
+├── docs/
+│   └── PCARD_需求文档.md
+├── points-card-manager/     # 主项目
+│   ├── index.html
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── vite.config.ts
+│   └── src/
+│       ├── main.tsx
+│       ├── App.tsx
+│       ├── index.css
+│       ├── types/
+│       │   └── card.ts
+│       ├── hooks/
+│       │   └── useCards.ts
+│       ├── components/
+│       │   ├── CardGrid.tsx
+│       │   ├── CardItem.tsx
+│       │   ├── BarcodeViewer.tsx
+│       │   ├── UploadModal.tsx
+│       │   └── EmptyState.tsx
+│       └── pages/
+│           └── HomePage.tsx
+├── poc_verification.py      # 验证脚本
+├── .gitignore
+├── index.html               # (仓库模板入口)
+├── LICENSE
+└── README.md
 ```
 
 ---
@@ -101,7 +117,30 @@ src/
 
 ---
 
-## 7. Demo 范围
+## 7. 部署
+
+### 7.1 CI/CD 流程
+
+推送 `main` 分支后，GitHub Actions 自动执行：
+
+```
+push → npm ci → npm run build → upload artifact → deploy to Pages
+```
+
+- 仅 `points-card-manager/**` 或 `.github/workflows/deploy.yml` 变更时触发
+- `BASE_URL` 自动设为 `/<仓库名>/`，保证资源路径正确
+- 构建产物推送至 `gh-pages` 分支
+
+### 7.2 首次配置
+
+1. 将仓库推送至 GitHub
+2. 仓库 Settings → Pages → Source 选择 **GitHub Actions**
+3. 推送 `main` 分支触发自动部署
+4. 访问 `https://<用户>.github.io/<仓库名>/`
+
+---
+
+## 8. Demo 范围
 
 **做：**
 - 上传图片 + 手动填卡名/商户名
