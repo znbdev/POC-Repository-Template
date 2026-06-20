@@ -15,10 +15,6 @@ export default function BarcodeViewer({ card, onClose }: BarcodeViewerProps) {
         onClick={e => e.stopPropagation()}
         className="flex w-full max-w-lg flex-col items-center px-6"
       >
-        <div className="mb-8 text-center">
-          <p className="text-lg font-semibold text-white">{card.merchant}</p>
-          <p className="mt-0.5 text-sm text-gray-400">{card.name}</p>
-        </div>
         <img
           src={card.barcodeImage}
           alt={card.name}
