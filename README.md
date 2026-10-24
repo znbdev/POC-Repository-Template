@@ -15,26 +15,33 @@ cd <repo-name>
 
 ### 2. 编写 POC 代码
 
-- `index.html` — POC 演示页面（入口）
-- `poc/src/` — POC 原型代码 / 验证脚本
-- `docs/02_poc/` — POC 方案与报告文档
+- `points-card-manager/` — POC 原型代码（React 19 + TypeScript + Vite，`index.html` 为入口）
+- `docs/Product/` — PRD 与架构文档
+- `docs/Dev/` — POC 验证方案、验证报告、部署过程记录
+- `docs/engineering/` — 工程规范
 
 ### 3. 推送自动部署
 
 推送 `main` 分支即可触发 GitHub Actions 自动部署：
 
 ```bash
-git add .
-git commit -m "初始化 POC"
-git push origin main
+./deploy.sh   # 封装 git add → commit → push
 ```
 
-### 4. 开启 GitHub Pages
+### 4. 开启 GitHub Pages（首次）
 
-- 仓库 → **Settings** → **Pages**
-- **Source**: Deploy from a branch
-- **Branch**: `gh-pages` `/ (root)`
-- 点击 **Save**
+- 仓库 → **Settings** → **Pages** → **Source** 选择 **GitHub Actions**
+- 或用 GitHub CLI 一步完成：
+
+```bash
+gh api -X POST /repos/<owner>/<repo>/pages --input - <<'EOF'
+{
+  "build_type": "workflow"
+}
+EOF
+```
+
+启用后重跑一次 Actions 即可。详细排错见 `docs/Dev/部署过程记录.md`。
 
 访问 `https://<用户名>.github.io/<仓库名>/` 查看 POC。
 
@@ -42,12 +49,16 @@ git push origin main
 
 ```
 .
-├── .github/workflows/deploy.yml # 自动部署到 GitHub Pages
-├── docs/02_poc/                 # POC 文档
-│   ├── poc_proposal_验证方案.md
-│   └── poc_report_验证报告.md
-├── poc/src/                     # POC 原型代码
-│   └── sources code
+├── .github/workflows/deploy.yml  # 自动部署到 GitHub Pages（Actions 模式）
+├── points-card-manager/          # POC 原型代码（React + Vite）
+├── deploy.sh                     # 一键部署脚本
+├── poc_verification.py           # 根目录验证脚本
+├── docs/
+│   ├── AGENTS.template.md        # AGENTS.md 模板
+│   ├── 从零构建清单.md
+│   ├── Product/                  # PRD.md、ARCH.md
+│   ├── engineering/              # 工程规范（6 篇）
+│   └── Dev/                      # 验证方案 / 验证报告 / 部署记录
 ├── LICENSE
 ├── .gitignore
 └── README.md
@@ -55,6 +66,6 @@ git push origin main
 
 ## 工作流程
 
-每次推送 `main` 分支 → GitHub Actions 自动构建 → 部署到 `gh-pages` 分支 → GitHub Pages 展示。
+每次推送 `main` 分支 → GitHub Actions 自动构建（`npm ci` → `vite build`）→ `actions/deploy-pages` 部署上线（Actions 模式，不经过 gh-pages 分支）。
 
 [线上地址](https://znbdev.github.io/POC-Repository-Template/)

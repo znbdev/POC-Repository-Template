@@ -163,8 +163,8 @@ React 19 + TypeScript + Vite 6 + Tailwind CSS v4 技术栈在本次 PoC 中表�
 ## 10. 附录
 
 ### 10.1 参考资料
-- PoC 需求文档: docs/PCARD_需求文档.md
-- 部署过程记录: docs/部署过程记录.md
+- PoC 需求文档: docs/Product/PRD.md
+- 部署过程记录: docs/Dev/部署过程记录.md
 - 验证脚本: poc_verification.py
 
 ### 10.2 演示材料
