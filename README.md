@@ -55,10 +55,11 @@ EOF
 ├── poc_verification.py           # 根目录验证脚本
 ├── docs/
 │   ├── AGENTS.template.md        # AGENTS.md 模板
+│   ├── templates/                # 通用文档模板（PRD/ARCH/PoC 方案与报告/部署记录）
 │   ├── 从零构建清单.md
-│   ├── Product/                  # PRD.md、ARCH.md
-│   ├── engineering/              # 工程规范（6 篇）
-│   └── Dev/                      # 验证方案 / 验证报告 / 部署记录
+│   ├── engineering/              # 通用工程规范（前端/Node/Java/Python 细则）
+│   ├── Product/                  # 示例：PRD.md、ARCH.md
+│   └── Dev/                      # 示例：验证方案 / 验证报告 / 部署记录
 ├── LICENSE
 ├── .gitignore
 └── README.md
